@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap" // importing since we'll be using form, button and card from bootstrap
 import { useAuth } from "../contexts/AuthContext"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function ForgotPassword() {
     const emailRef = useRef() 
-    const { login } = useAuth() // pulling from authcontext.js
-    const [error, setError] = useState('')
+    const { resetPassword } = useAuth() // pulling from authcontext.js
+    const [error, setError] = useState("")
+    const [message, setMessage] = useState("")
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
 
 
     async function handleSubmit(e) { 
@@ -16,17 +16,15 @@ export default function ForgotPassword() {
 
         // await will wait for the sign up to finish
         try {
-            setError('')
+            setMessage("")
+            setError("")
             setLoading(true)
-            // passing in the email and password value
-            // await login(emailRef.current.value, passwordRef.current.value)
-            navigate('/')
+            await resetPassword(emailRef.current.value)
+            setMessage("Check your inbox for further instructions")
         } catch {
-            setError('Failed to sign in')
+            setError("Failed to reset password")
         }
         setLoading(false)
-        // setLoading prevents users from clicking the sign up button multiple times and accidentally creating multiple accounts
-
     }
 
     return (
@@ -38,6 +36,7 @@ export default function ForgotPassword() {
                     {/* textcenter with margin bottom: 4 */}
                     <h2 className="text-center mb-4">Password Reset</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
+                    {message && <Alert variant="success">{message}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         {/* Form.group groups together labels and controls making it neater on the user side */}
                         {/* kinda like a div with a class container */}
@@ -48,13 +47,13 @@ export default function ForgotPassword() {
                         <Button disabled={loading} className="w-100" type="submit">Reset Password</Button> {/* button with width: 100 */}
                     </Form>
                     <div className = "w-100 text-center mt-3">
-                        <Link to='/login'>Login</Link>
+                        <Link to='/login' >Login</Link>
                     </div>
                 </Card.Body>
             </Card>
             {/* div has width: 100, text centered and margin-top: 2 */}
             <div className = "w-100 text-center mt-2"> 
-                Need an account? <Link to='/signup'>Sign Up</Link>
+                Need an account? <Link to="/signup">Sign Up</Link>
             </div>
         </>
     )

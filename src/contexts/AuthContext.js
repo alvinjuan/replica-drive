@@ -26,6 +26,10 @@ export function AuthProvider({ children }) {
     return auth.signOut()
   }
 
+  function resetPassword(email) {
+    return auth.sendPasswordResetEmail(email)
+  }
+
   // sets the user for us when we call the createUserWithEmailAndPassword
   // its an off on state changer
   useEffect(() => {
@@ -42,7 +46,8 @@ export function AuthProvider({ children }) {
     currentUser,
     login,
     signup,
-    logout
+    logout,
+    resetPassword
   }
   
   return (
