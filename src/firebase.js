@@ -1,5 +1,5 @@
-import firebase from 'firebase/app' // importing firebase
-import "firebase/auth" // imports the authentication module from firebase
+import firebase from 'firebase/compat/app'; // importing firebase
+import "firebase/auth"; // imports the authentication module from firebase
 
 // web app firebase config
 // using local environment variable names from .env.local

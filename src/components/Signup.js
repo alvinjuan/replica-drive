@@ -1,11 +1,32 @@
-import React, { useRef } from "react"
-// importing since we'll be using form, button and card from bootstrap
-import { Form, Button, Card } from "react-bootstrap" 
+import React, { useRef, useState } from "react"
+import { Form, Button, Card } from "react-bootstrap" // importing since we'll be using form, button and card from bootstrap
+import { useAuth } from "../contexts/AuthContext"
 
 export default function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
+    const { signup } = useAuth() // pulling from authcontext.js
+    // eslint-disable-next-line
+    const [error, setError] = useState('')
+
+    // eslint-disable-next-line
+    async function handleSubmit(e) { 
+        e.preventDefault()
+
+        if (passwordRef.current.value !== passwordConfirmRef.current.value){
+            return setError('Passwords do not match')
+        }
+
+        // await will wait for the sign up to finish
+        try {
+            // passing in the email and password value
+            await signup(emailRef.current.value, passwordRef.current.value)
+        } catch {
+            setError('Failed to create an account')
+        }
+
+    }
     
     return (
         <>
