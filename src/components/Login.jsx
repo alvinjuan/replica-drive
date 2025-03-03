@@ -1,33 +1,35 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card } from "react-bootstrap" // importing since we'll be using form, button and card from bootstrap
+import { Form, Button, Card, Alert } from "react-bootstrap" // importing since we'll be using form, button and card from bootstrap
 import { useAuth } from "../contexts/AuthContext"
+import { Link, useNavigate } from 'react-router-dom'
 
-export default function Signup() {
+export default function Login() {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const { signup } = useAuth() // pulling from authcontext.js
-    // eslint-disable-next-line
+    const { login } = useAuth() // pulling from authcontext.js
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
-    // eslint-disable-next-line
+
     async function handleSubmit(e) { 
         e.preventDefault()
 
-        if (passwordRef.current.value !== passwordConfirmRef.current.value){
-            return setError('Passwords do not match')
-        }
-
         // await will wait for the sign up to finish
         try {
+            setError('')
+            setLoading(true)
             // passing in the email and password value
-            await signup(emailRef.current.value, passwordRef.current.value)
+            await login(emailRef.current.value, passwordRef.current.value)
+            navigate('/')
         } catch {
-            setError('Failed to create an account')
+            setError('Failed to sign in')
         }
+        setLoading(false)
+        // setLoading prevents users from clicking the sign up button multiple times and accidentally creating multiple accounts
 
     }
-    
+
     return (
         <>
             {/* creates a card like container */}
@@ -35,8 +37,9 @@ export default function Signup() {
                 {/* body of the cord where the forms and button will be in */}
                 <Card.Body>
                     {/* textcenter with margin bottom: 4 */}
-                    <h2 className="text-center mb-4">Sign Up</h2>
-                    <Form>
+                    <h2 className="text-center mb-4">Log In</h2>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <Form onSubmit={handleSubmit}>
                         {/* Form group groups together labels and controls making it neater on the user side */}
                         {/* kinda like a div with a class container */}
                         <Form.Group id="email">
@@ -47,18 +50,17 @@ export default function Signup() {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" ref={passwordRef} required />
                         </Form.Group>
-                        <Form.Group id="password-confirm">
-                            <Form.Label>Password Confirmation</Form.Label> {/* label of the input form */}
-                            <Form.Control type="email" ref={passwordConfirmRef} required />{/* the actual input form */}
-                        </Form.Group>
                         {/* button with width: 100 */}
-                        <Button className="w-100" type="submit">Sign Up</Button>
+                        <Button disabled={loading} className="w-100" type="submit">Log In</Button>
                     </Form>
+                    <div className = "w-100 text-center mt-2">
+                        <Link to='/forgot-password'>Forgot Password?</Link>
+                    </div>
                 </Card.Body>
             </Card>
             {/* div has width: 100, text centered and margin-top: 2 */}
             <div className = "w-100 text-center mt-2"> 
-                Alreadty have an account? Log In
+                Need an account? <Link to='/signup'>Sign Up</Link>
             </div>
         </>
     )
