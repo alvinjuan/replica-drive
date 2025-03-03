@@ -47,15 +47,15 @@ export default function Signup() {
                     <Form onSubmit={handleSubmit}>
                         {/* Form group groups together labels and controls making it neater on the user side */}
                         {/* kinda like a div with a class container */}
-                        <Form.Group id="email">
+                        <Form.Group id="email" className="mb-3">
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" ref={emailRef} required />
                         </Form.Group>
-                        <Form.Group id="password">
+                        <Form.Group id="password" className="mb-3">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" ref={passwordRef} required />
                         </Form.Group>
-                        <Form.Group id="password-confirm">
+                        <Form.Group id="password-confirm" className="mb-3">
                             <Form.Label>Password Confirmation</Form.Label> {/* label of the input form */}
                             <Form.Control type="password" ref={passwordConfirmRef} required />{/* the actual input form */}
                         </Form.Group>
