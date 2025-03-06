@@ -30,6 +30,31 @@ export function AuthProvider({ children }) {
     return auth.sendPasswordResetEmail(email)
   }
 
+  function updateEmail(email) {
+    return currentUser.updateEmail(email)
+  }
+
+  function updatePassword(password) {
+    return currentUser.updatePassword(password)
+  }
+
+  // New function that uses verifyBeforeUpdateEmail to update the email,
+  // then signs the user out and reloads the page.
+  async function firebaseEmailReset(email) {
+    try {
+      // This sends a verification email to the new address.
+      // Once the user clicks the link, the email will be updated.
+      await currentUser.verifyBeforeUpdateEmail(email);
+      // Sign out the user after initiating the email verification process.
+      await auth.signOut();
+      // Reload the window to refresh the auth state.
+      window.location.reload();
+    } catch (error) {
+      // You can create a custom error handler or simply rethrow the error.
+      throw new Error(error.message);
+    }
+  }
+
   // sets the user for us when we call the createUserWithEmailAndPassword
   // its an off on state changer
   useEffect(() => {
@@ -47,7 +72,10 @@ export function AuthProvider({ children }) {
     login,
     signup,
     logout,
-    resetPassword
+    resetPassword,
+    updateEmail,
+    updatePassword,
+    firebaseEmailReset
   }
   
   return (
