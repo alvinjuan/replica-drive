@@ -6,7 +6,7 @@ export default function NavbarComponent() {
   return (
     <Navbar bg='light' expand='lg'>
         <Navbar.Brand as={Link} to='/'>
-            WDS Drive
+            Rep Drive
         </Navbar.Brand>
         <Nav>
             <Nav.Link as={Link} to='/user'>

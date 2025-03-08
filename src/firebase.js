@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app'; // importing firebase
 import "firebase/compat/auth"; // imports the authentication module from firebase
+import 'firebase/compat/firestore'
 
 // web app firebase config
 // using local environment variable names from .env.local
@@ -13,7 +14,13 @@ const app = firebase.initializeApp({
 })
 
 // authentication instance
-export const auth = app.auth()
+const firestore = app.firestore()
+export const database = {
+    folders: firestore.collection('folders'),
+    files: firestore.collection('files'),
+    getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp, // server time stamp
+}
 
+export const auth = app.auth()
 // allows this component to easily be used and imported into other parts of the application
-export default app 
+export default app
