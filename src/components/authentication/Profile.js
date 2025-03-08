@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Card, Alert } from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
+import CenteredContainer from './CenteredContainer'
 
 export default function Profile() {
   const [error, setError] = useState("")
@@ -20,7 +21,7 @@ export default function Profile() {
   }
 
   return (
-    <>
+    <CenteredContainer>
         <Card>
           <Card.Body>
           <h2 className="text-center mb-4">Profile</h2>
@@ -32,6 +33,6 @@ export default function Profile() {
         <div className = "w-100 text-center mt-2"> 
             <Button variant='link' onClick={handleLogout}>Log Out</Button>
         </div>
-    </>
+    </CenteredContainer>
   )
 }

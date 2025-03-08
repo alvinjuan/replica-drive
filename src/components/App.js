@@ -2,11 +2,12 @@ import React from "react"
 import Signup from "./authentication/Signup"
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
-import Dashboard from './Dashboard'
+import Profile from './authentication/Profile'
 import Login from './authentication/Login'
 import PrivateRoute from "./authentication/PrivateRoute";
 import ForgotPassword from "./authentication/ForgotPassword";
 import UpdateProfile from "./authentication/UpdateProfile";
+import Dashboard from "./google-drive/Dashboard";
 
 function App() {
   return (
@@ -14,8 +15,14 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route exact path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
+          {/* Drive */}
+          <Route exact path='/' element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
+
+          {/* Profile */}
+          <Route path="/user" element={<PrivateRoute><Profile /></PrivateRoute>}></Route>
           <Route path="/update-profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>}></Route>
+
+          {/* Auth */}
           <Route path='/signup' element={<Signup/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/forgot-password' element={<ForgotPassword/>} />
