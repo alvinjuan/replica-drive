@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddFileButton({ currentFolder }) {
-  function handleUpload(e) {}
+  function handleUpload(e) {
+    const file = e.target.files[0];
+    if (currentFolder == null || file == null) return;
+  }
 
   return (
     <label className="btn btn-outline-success btn-sm m-0 me-2">
